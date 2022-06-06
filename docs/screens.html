@@ -1,0 +1,1076 @@
+<html>
+	<head>
+		<style>
+			pre {
+				border: 1px solid black;
+				background-color: black;
+				color: white;
+			}
+			.chars26 {
+				width: 26.6ch;
+			}
+			.chars23 {
+				width: 23.3ch;
+			}
+			.chars20 {
+				width: 20ch;
+			}
+			table {
+				border-collapse: collapse;
+				border: 1px solid black;
+			}
+			td, th {
+				border: 1px solid black;
+				padding: 5px;
+				vertical-align: top;
+				/* max-width: 325px; */
+				max-width: 42ch;
+			}
+			.rowheader {
+				vertical-align: middle;
+			}
+			.keyboard {
+				font-family: monospace;
+				text-align: center;
+			}
+			.keyboard td {
+				width: 3ch;
+			}
+			.keyboard .action {
+				background-color: yellow;
+			}
+			.keyboard .nav {
+				background-color: aqua;
+			}
+			.keyboard .menu {
+				background-color: lawngreen;
+			}
+			.noborder {
+				border: none !important;
+			}
+			.key {
+				font-weight: bolder;
+			}
+			pre .title {
+				color: green;
+			}
+			pre .action {
+				color: red;
+			}
+			pre .status {
+				color: yellow;
+			}
+		</style>
+	</head>
+	<body>
+		<table>
+			<caption>Armachat Screens</caption>
+			
+			<tr>
+				<th>Screen Name</th>
+				<th>320x240 Pixels</th>
+				<th>280x240 Pixels</th>
+				<th>240x240 Pixels</th>
+				<th>160x80 Pixels</th>
+				<th>Keypad</th>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">Font</th>
+				<td>neep-24.pcf<br />Monospaced 12x24px</td>
+				<td>neep-24.pcf<br />Monospaced 12x24px</td>
+				<td>neep-24.pcf<br />Monospaced 12x24px</td>
+				<td>pavlova-16.pcf<br />Monospaced 8x16px</td>
+				<td rowspan="4">
+					Special Keys on all screens but editor
+					<ul>
+						<li>Q - Keyboard Backlight Toggle</li>
+						<li>A - Display Backlight Toggle</li>
+						<li>B - Display: Short-Bright / Long-Dim</li>
+						<li>V - Volume: Short-Loud / Long-Soft</li>
+					</ul>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">Characters &amp; Lines</th>
+				<td>26 chars x 10 lines</td>
+				<td>23 chars x 10 lines</td>
+				<td>20 chars x 10 lines</td>
+				<td>20 chars x 5 lines</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">Armachat Models</th>
+				<td>Max<br />Compact</td>
+				<td>Max<br />Compact</td>
+				<td>Max<br />Compact</td>
+				<td>Watch</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">Notes</th>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>
+					Scrolling of the screen is done with:
+					<ul>
+						<li>[O] - Up</li>
+						<li>[L] - Down</li>
+					</ul>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">Main</th>
+				<td>
+					<pre class="chars26">ARMACHAT 915.00 MHz     RO
+<span class="title">&gt;(12-36-124-2)DemoUser</span>
+[N] New message
+[D] To:(12-36-124-255)All
+[M] Messages &gt; ALL: 1
+New:0 Undelivered:0
+[ ]          [I] HW Info
+[ ]          [P] Ping
+[T] Terminal [S] Setup
+<span class="action">Ready ...</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">915.00 MHz        RO
+<span class="title">&gt;(12-36-124-2)DemoUs</span>
+[N] New message
+[D] To:Broadcast
+[M] Messages&gt;A:1<hr />New:0 Undeliv:0
+[ ]       [I] HW Inf
+[ ]       [P] Ping
+[T] Term  [S] Setup
+<span class="action">Ready ...</span></pre>
+				</td>
+				<td>
+					<table class="keyboard">
+						<tr>
+							<td class="action">Q</td>
+							<td>W</td>
+							<td>E</td>
+							<td>R</td>
+							<td class="menu">T</td>
+							<td>Y</td>
+							<td>U</td>
+							<td class="menu">I</td>
+							<td class="nav">O</td>
+							<td class="menu">P</td>
+						</tr>
+						<tr>
+							<td class="action">A</td>
+							<td class="menu">S</td>
+							<td class="menu">D</td>
+							<td>F</td>
+							<td>G</td>
+							<td>H</td>
+							<td>J</td>
+							<td>K</td>
+							<td class="nav">L</td>
+							<td>DEL</td>
+						</tr>
+						<tr>
+							<td>ALT</td>
+							<td>Z</td>
+							<td>X</td>
+							<td>C</td>
+							<td class="action">V</td>
+							<td class="action">B</td>
+							<td class="menu">N</td>
+							<td class="menu">M</td>
+							<td>SPC</td>
+							<td>ENT</td>
+						</tr>
+						<tr>
+							<td class="key" colspan="10">Key</td>
+						</tr>
+						<tr>
+							<td class="action" colspan="3">Special</td>
+							<td class="menu" colspan="4">Menu</td>
+							<td class="nav" colspan="3">Navigation</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">[M] Messages<br />Splash Screen</th>
+				<td>
+					<pre class="chars26"><span class="title">Messages</span>
+Scroll [L]down  [O]up
+Pg [ENT]next [DEL]previous
+[SPC] details
+[ALT] to exit
+
+
+
+
+<span class="action">ALT-Ex Ent&gt; Del&lt; SPC-Detail</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20"><span class="title">Messages</span>
+Scroll [L]dwn  [O]up
+Pg [ENT]nxt [DEL]pre
+[SPC] details
+[ALT] to exit<hr /> 
+
+
+
+<span class="action">Ent&gt; Del&lt; SPC-Detail</span></pre>
+				</td>
+				<td rowspan="3">
+					<table class="keyboard">
+						<tr>
+							<td class="action">Q</td>
+							<td>W</td>
+							<td>E</td>
+							<td>R</td>
+							<td>T</td>
+							<td>Y</td>
+							<td>U</td>
+							<td>I</td>
+							<td class="nav">O</td>
+							<td>P</td>
+						</tr>
+						<tr>
+							<td class="action">A</td>
+							<td>S</td>
+							<td>D</td>
+							<td>F</td>
+							<td>G</td>
+							<td>H</td>
+							<td>J</td>
+							<td>K</td>
+							<td class="nav">L</td>
+							<td class="nav">DEL</td>
+						</tr>
+						<tr>
+							<td class="nav">ALT</td>
+							<td>Z</td>
+							<td>X</td>
+							<td>C</td>
+							<td class="action">V</td>
+							<td class="action">B</td>
+							<td>N</td>
+							<td>M</td>
+							<td class="menu">SPC</td>
+							<td class="nav">ENT</td>
+						</tr>
+						<tr>
+							<td class="key" colspan="10">Key</td>
+						</tr>
+						<tr>
+							<td class="action" colspan="3">Special</td>
+							<td class="menu" colspan="4">Menu</td>
+							<td class="nav" colspan="3">Navigation</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">[M] Messages<br />View Message</th>
+				<td>
+					<pre class="chars26">ARMACHAT 915.00 MHz     RO
+<span class="title">Message: 0</span>
+a1
+a2
+a3
+a4
+a5
+a6
+a7
+<span class="action">ALT-Ex Ent&gt; Del&lt; SPC-Detail</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">915.00 MHz       RO
+<span class="title">Message: 0</span>
+a1
+a2
+a3<hr />a4
+a5
+a6
+a7
+<span class="action">Ent&gt; Del&lt; SPC-Detail</span></pre>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">[M] Messages<br />View Message Detail</th>
+				<td>
+					<pre class="chars26">ARMACHAT 915.00 MHz     RO
+<span class="title">Message: 0 Detail</span>
+Status:5
+To:1
+From:2
+MsgId:3
+Hop:4
+RSSI:6 SNR:7
+Time:8
+<span class="action">ALT-Ex Ent&gt; Del&lt; SPC-Detail</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">915.00 MHz       RO
+<span class="title">Message: 0 Detail</span>
+Status:5
+To:1
+From:2<hr />MsgId:3
+Hop:4
+RSSI:6 SNR:7
+Time:8
+<span class="action">Ent&gt; Del&lt; SPC-Detail</span></pre>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">[I] HW Info</th>
+				<td>
+					<pre class="chars26">ARMACHAT 915.00 MHz     RO
+<span class="title">System info:</span>
+VSYS power: 4.53 V
+USB power connected
+Disk size: 1004.0 KB
+Free space: 91.0 KB
+CPU Temp: 29.95 degrees C
+Free RAM: 62,640
+FS Mode: Read Only
+<span class="action">[ALT] Exit</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">915.00 MHz       RO
+<span class="title">System info:</span>
+VSYS power: 4.53 V
+USB power connected
+Disk size: 1004.0 KB<hr />Free space 91.0 KB
+CPU Temp: 29.95 C
+Free RAM: 62,640
+FS Mode: Read Only
+<span class="action">[ALT] Exit</span></pre>
+				</td>
+				<td>
+					<table class="keyboard">
+						<tr>
+							<td class="action">Q</td>
+							<td>W</td>
+							<td>E</td>
+							<td>R</td>
+							<td>T</td>
+							<td>Y</td>
+							<td>U</td>
+							<td>I</td>
+							<td class="nav">O</td>
+							<td>P</td>
+						</tr>
+						<tr>
+							<td class="action">A</td>
+							<td>S</td>
+							<td>D</td>
+							<td>F</td>
+							<td>G</td>
+							<td>H</td>
+							<td>J</td>
+							<td>K</td>
+							<td class="nav">L</td>
+							<td>DEL</td>
+						</tr>
+						<tr>
+							<td class="nav">ALT</td>
+							<td>Z</td>
+							<td>X</td>
+							<td>C</td>
+							<td class="action">V</td>
+							<td class="action">B</td>
+							<td>N</td>
+							<td>M</td>
+							<td>SPC</td>
+							<td>ENT</td>
+						</tr>
+						<tr>
+							<td class="key" colspan="10">Key</td>
+						</tr>
+						<tr>
+							<td class="action" colspan="3">Special</td>
+							<td class="menu" colspan="4">Menu</td>
+							<td class="nav" colspan="3">Navigation</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">[S] Setup<br />Splash Screen</th>
+				<td>
+					<pre class="chars26"><span class="title">Setup</span>
+Scroll [L]down  [O]up
+Pg [ENT]next [DEL]previous
+[ALT] to exit
+
+
+
+
+
+<span class="action">[ALT] Exit [Ent] &gt; [Del] &lt;</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20"><span class="title">Setup</span>
+Scroll [L]dwn  [O]up
+Pg [ENT]nxt [DEL]pre
+[ALT] to exit
+ <hr /> 
+
+
+
+<span class="action">ALT-Ex [ENT]&gt; [DEL]&lt;</span></pre>
+				</td>
+				<td>
+					<table class="keyboard">
+						<tr>
+							<td class="action">Q</td>
+							<td>W</td>
+							<td>E</td>
+							<td>R</td>
+							<td>T</td>
+							<td>Y</td>
+							<td>U</td>
+							<td>I</td>
+							<td class="nav">O</td>
+							<td>P</td>
+						</tr>
+						<tr>
+							<td class="action">A</td>
+							<td>S</td>
+							<td>D</td>
+							<td>F</td>
+							<td>G</td>
+							<td>H</td>
+							<td>J</td>
+							<td>K</td>
+							<td class="nav">L</td>
+							<td>DEL</td>
+						</tr>
+						<tr>
+							<td class="nav">ALT</td>
+							<td>Z</td>
+							<td>X</td>
+							<td>C</td>
+							<td class="action">V</td>
+							<td class="action">B</td>
+							<td>N</td>
+							<td>M</td>
+							<td>SPC</td>
+							<td class="nav">ENT</td>
+						</tr>
+						<tr>
+							<td class="key" colspan="10">Key</td>
+						</tr>
+						<tr>
+							<td class="action" colspan="3">Special</td>
+							<td class="menu" colspan="4">Menu</td>
+							<td class="nav" colspan="3">Navigation</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">[S] Setup<br />Radio</th>
+				<td>
+					<pre class="chars26">ARMACHAT 915.00 MHz     RO
+<span class="title">0 Radio:</span>
+[R] Region: US
+[F] Frequency: 915.00 MHz
+    Channel: 26
+[P] Power: 23
+[S] Profile: 1
+Bw500Cr45Sf128
+Short/Fast
+<span class="action">[ALT] Exit [Ent] &gt; [Del] &lt;</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">915.00 MHz        RO
+<span class="title">0 Radio:</span>
+[R] Region: US
+[F] Freq: 915.00 MHz
+    Channel: 26<hr />[P] Power: 23
+[S] Profile: 1
+Bw500Cr45Sf128
+Short/Fast
+<span class="action">ALT-Ex [ENT]&gt; [DEL]&lt;</span></pre>
+				</td>
+				<td>
+					<table class="keyboard">
+						<tr>
+							<td class="action">Q</td>
+							<td>W</td>
+							<td>E</td>
+							<td class="menu">R</td>
+							<td>T</td>
+							<td>Y</td>
+							<td>U</td>
+							<td>I</td>
+							<td class="nav">O</td>
+							<td class="menu">P</td>
+						</tr>
+						<tr>
+							<td class="action">A</td>
+							<td class="menu">S</td>
+							<td>D</td>
+							<td class="menu">F</td>
+							<td>G</td>
+							<td>H</td>
+							<td>J</td>
+							<td>K</td>
+							<td class="nav">L</td>
+							<td class="nav">DEL</td>
+						</tr>
+						<tr>
+							<td class="nav">ALT</td>
+							<td>Z</td>
+							<td>X</td>
+							<td>C</td>
+							<td class="action">V</td>
+							<td class="action">B</td>
+							<td>N</td>
+							<td>M</td>
+							<td>SPC</td>
+							<td class="nav">ENT</td>
+						</tr>
+						<tr>
+							<td class="key" colspan="10">Key</td>
+						</tr>
+						<tr>
+							<td class="action" colspan="3">Special</td>
+							<td class="menu" colspan="4">Menu</td>
+							<td class="nav" colspan="3">Navigation</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">[S] Setup<br />Identity</th>
+				<td>
+					<pre class="chars26">ARMACHAT 915.00 MHz     RO
+<span class="title">1 Identity:</span>
+[N] Name: DemoUser
+------
+[E] Encryption {}
+[G] Group 3:3
+[G] Group 2:2
+[G] Group 1:1
+[I] ID:     1
+<span class="action">[ALT] Exit [Ent] &gt; [Del] &lt;</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">915.00 MHz        RO
+<span class="title">1 Identity:</span>
+[N] Name: DemoUser
+------
+[E] Encryption {}<hr />[G] Group 3:3
+[G] Group 2:2
+[G] Group 1:1
+[I] ID:     1
+<span class="action">ALT-Ex [ENT]&gt; [DEL]&lt;</span></pre>
+				</td>
+				<td>
+					<table class="keyboard">
+						<tr>
+							<td class="action">Q</td>
+							<td>W</td>
+							<td class="menu">E</td>
+							<td>R</td>
+							<td>T</td>
+							<td>Y</td>
+							<td>U</td>
+							<td class="menu">I</td>
+							<td class="nav">O</td>
+							<td>P</td>
+						</tr>
+						<tr>
+							<td class="action">A</td>
+							<td>S</td>
+							<td>D</td>
+							<td>F</td>
+							<td class="menu">G</td>
+							<td>H</td>
+							<td>J</td>
+							<td>K</td>
+							<td class="nav">L</td>
+							<td class="nav">DEL</td>
+						</tr>
+						<tr>
+							<td class="nav">ALT</td>
+							<td>Z</td>
+							<td>X</td>
+							<td>C</td>
+							<td class="action">V</td>
+							<td class="action">B</td>
+							<td class="menu">N</td>
+							<td>M</td>
+							<td>SPC</td>
+							<td class="nav">ENT</td>
+						</tr>
+						<tr>
+							<td class="key" colspan="10">Key</td>
+						</tr>
+						<tr>
+							<td class="action" colspan="3">Special</td>
+							<td class="menu" colspan="4">Menu</td>
+							<td class="nav" colspan="3">Navigation</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">[S] Setup<br />Display</th>
+				<td>
+					<pre class="chars26">ARMACHAT 915.00 MHz     RO
+<span class="title">2 Display:</span>
+[B] Bright: 4
+[S] Sleep:  0 secs
+
+
+
+
+
+<span class="action">[ALT] Exit [Ent] &gt; [Del] &lt;</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">915.00 MHz        RO
+<span class="title">2 Display:</span>
+[B] Bright: 4
+[S] Sleep:  0 secs
+<span class="action">ALT-Ex [ENT]&gt; [DEL]&lt;</span></pre>
+				</td>
+				<td>
+					<table class="keyboard">
+						<tr>
+							<td class="action">Q</td>
+							<td>W</td>
+							<td>E</td>
+							<td>R</td>
+							<td>T</td>
+							<td>Y</td>
+							<td>U</td>
+							<td>I</td>
+							<td class="nav">O</td>
+							<td>P</td>
+						</tr>
+						<tr>
+							<td class="action">A</td>
+							<td class="menu">S</td>
+							<td>D</td>
+							<td>F</td>
+							<td>G</td>
+							<td>H</td>
+							<td>J</td>
+							<td>K</td>
+							<td class="nav">L</td>
+							<td class="nav">DEL</td>
+						</tr>
+						<tr>
+							<td class="nav">ALT</td>
+							<td>Z</td>
+							<td>X</td>
+							<td>C</td>
+							<td class="action">V</td>
+							<td class="menu">B</td>
+							<td>N</td>
+							<td>M</td>
+							<td>SPC</td>
+							<td class="nav">ENT</td>
+						</tr>
+						<tr>
+							<td class="key" colspan="10">Key</td>
+						</tr>
+						<tr>
+							<td class="action" colspan="3">Special</td>
+							<td class="menu" colspan="4">Menu</td>
+							<td class="nav" colspan="3">Navigation</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">[S] Setup<br />Sound</th>
+				<td>
+					<pre class="chars26">ARMACHAT 915.00 MHz     RO
+<span class="title">3 Sound:</span>
+[V] Volume: 6
+
+[T] Tone: 5000
+[M] Melody: 30
+    Popcorn
+    6 secs
+[P] Play Melody
+<span class="action">[ALT] Exit [Ent] &gt; [Del] &lt;</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">915.00 MHz        RO
+<span class="title">3 Sound:</span>
+[V] Volume: 6
+
+[T] Tone: 5000<hr />[M] Melody: 30 
+    Popcorn
+    6 secs
+[P] Play Melody
+<span class="action">ALT-Ex [ENT]&gt; [DEL]&lt;</span></pre>
+				</td>
+				<td>
+					<table class="keyboard">
+						<tr>
+							<td class="action">Q</td>
+							<td>W</td>
+							<td>E</td>
+							<td>R</td>
+							<td class="menu">T</td>
+							<td>Y</td>
+							<td>U</td>
+							<td>I</td>
+							<td class="nav">O</td>
+							<td>P</td>
+						</tr>
+						<tr>
+							<td class="action">A</td>
+							<td>S</td>
+							<td>D</td>
+							<td>F</td>
+							<td>G</td>
+							<td>H</td>
+							<td>J</td>
+							<td>K</td>
+							<td class="nav">L</td>
+							<td class="nav">DEL</td>
+						</tr>
+						<tr>
+							<td class="nav">ALT</td>
+							<td>Z</td>
+							<td>X</td>
+							<td>C</td>
+							<td class="menu">V</td>
+							<td class="action">B</td>
+							<td>N</td>
+							<td class="menu">M</td>
+							<td>SPC</td>
+							<td>ENT</td>
+						</tr>
+						<tr>
+							<td class="key" colspan="10">Key</td>
+						</tr>
+						<tr>
+							<td class="action" colspan="3">Special</td>
+							<td class="menu" colspan="4">Menu</td>
+							<td class="nav" colspan="3">Navigation</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">
+					Editor<br />
+					[N] New message<br />
+					[S] Setup - [N] Name<br />
+					[S] Setup - [E] Encryption<br />
+					[S] Setup - [G] Group<br />
+					[S] Setup - [I] Id
+				</th>
+				<td>
+					<pre class="chars26"><span class="status">[abc] 1:1/0:0            U</span>
+
+
+
+
+
+
+
+
+<span class="title">[Ent] Send    [Del] Delete</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20"><span class="status">[abc] 1:1/0:0      U</span>
+
+
+
+<span class="title" rowspan="4">[Ent] Send [Del] Del</span></pre>
+				</td>
+				<td rowspan="4">
+					<table class="keyboard">
+						<tr>
+							<td>Q</td>
+							<td>W</td>
+							<td>E</td>
+							<td>R</td>
+							<td>T</td>
+							<td>Y</td>
+							<td>U</td>
+							<td>I</td>
+							<td>O</td>
+							<td>P</td>
+						</tr>
+						<tr>
+							<td>A</td>
+							<td>S</td>
+							<td>D</td>
+							<td>F</td>
+							<td>G</td>
+							<td>H</td>
+							<td>J</td>
+							<td>K</td>
+							<td>L</td>
+							<td class="nav">DEL</td>
+						</tr>
+						<tr>
+							<td class="nav">ALT</td>
+							<td>Z</td>
+							<td>X</td>
+							<td>C</td>
+							<td>V</td>
+							<td>B</td>
+							<td>N</td>
+							<td>M</td>
+							<td>SPC</td>
+							<td class="nav">ENT</td>
+						</tr>
+						<tr>
+							<td class="key" colspan="10">Key</td>
+						</tr>
+						<tr>
+							<td class="action" colspan="3">Special</td>
+							<td class="menu" colspan="4">Menu</td>
+							<td class="nav" colspan="3">Navigation</td>
+						</tr>
+					</table>
+					<br />
+					Notes regarding ALT key:
+					<ul>
+						<li>Short press changes layout from [abc] to [ABC] to [123]</li>
+						<li>Long press locks the current layout</li>
+						<li>Short press when layout is locked changes layout and locks the new layout</li>
+						<li>Second long press unlocks the layout</li>
+					</ul>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">
+					Editor<br />
+					[S] Setup - [N] Name<br />
+					[S] Setup - [E] Encryption<br />
+					[S] Setup - [G] Group<br />
+					[S] Setup - [I] Id<br /><br />
+					[ALT] Pressed (Short)					
+				</th>
+				<td>
+					<pre class="chars26">Armachat EDITOR          U
+<span class="status">[ABC] 0:0/0</span>
+
+
+
+
+
+
+
+<span class="title">[Ent] &gt; Right  [Del] &lt; Left</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">Armachat EDITOR    U
+<span class="status">[ABC] 0:0/0</span>
+
+
+<span class="title">[Ent] &gt;Rt  [Del] &lt;Lt</span></pre>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">
+					Editor<br />
+					[S] Setup - [N] Name<br />
+					[S] Setup - [E] Encryption<br />
+					[S] Setup - [G] Group<br />
+					[S] Setup - [I] Id<br /><br />
+					[ALT] Pressed (Short)					
+				</th>
+				<td>
+					<pre class="chars26">Armachat EDITOR          U
+<span class="status">[123] 0:0/0</span>
+
+
+
+
+
+
+
+<span class="title">[Ent] Down    [Del] Up</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">Armachat EDITOR    U
+<span class="status">[123] 0:0/0</span>
+
+
+<span class="title">[Ent] Down  [Del] Up</span></pre>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			<tr>
+				<th class="rowheader">
+					Editor<br />
+					[S] Setup - [N] Name<br />
+					[S] Setup - [E] Encryption<br />
+					[S] Setup - [G] Group<br />
+					[S] Setup - [I] Id<br /><br />
+					[ALT] Pressed (Long)					
+				</th>
+				<td>
+					<pre class="chars26">Armachat EDITOR          L
+<span class="status">[123] 0:0/0</span>
+
+
+
+
+
+
+
+<span class="title">[Ent] Down    [Del] Up</span></pre>
+				</td>
+				<td>
+					<pre class="chars23"></pre>
+				</td>
+				<td>
+					<pre class="chars20"></pre>
+				</td>
+				<td>
+					<pre class="chars20">Armachat EDITOR    L
+<span class="status">[123] 0:0/0</span>
+
+
+<span class="title">[Ent] Down  [Del] Up</span></pre>
+				</td>
+			</tr>
+
+<!-- ********** -->
+
+			
+		</table>
+	</body>
+</html>
