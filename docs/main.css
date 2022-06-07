@@ -15,6 +15,16 @@ pre {
 table {
     border-collapse: collapse;
     border: 1px solid black;
+    /* position: relative; */
+    page-break-after: auto;
+}
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+tfoot { 
+    display: table-footer-group;
 }
 td, th {
     border: 1px solid black;
@@ -22,6 +32,14 @@ td, th {
     vertical-align: top;
     /* max-width: 325px; */
     max-width: 42ch;
+    page-break-inside:avoid;
+    page-break-after:auto
+}
+thead th {
+    background: silver;
+    position: sticky;
+    top: 3ch;
+    z-index: 99;
 }
 .rowheader {
     vertical-align: middle;
@@ -56,4 +74,18 @@ pre .action {
 }
 pre .status {
     color: yellow;
+}
+
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+    thead th {
+        background: silver;
+        position: static;
+        top: auto;
+        z-index: auto;
+    }
 }
