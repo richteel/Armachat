@@ -38,11 +38,16 @@ td, th {
 thead th {
     background: silver;
     position: sticky;
-    top: 3ch;
+    top: 0;
     z-index: 99;
 }
 .rowheader {
     vertical-align: middle;
+    text-align: left;
+}
+.rowheader::first-line  {
+    text-align: center;
+    color: red;
 }
 .keyboard {
     font-family: monospace;
@@ -76,6 +81,36 @@ pre .status {
     color: yellow;
 }
 
+.markdown-body {
+    padding: 5ch;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+}
+
+.markdown-body table {
+    font-family: initial;
+}
+
+.markdown-body h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: 400;
+}
+
+.markdown-body h2 {
+    padding-bottom: .3em;
+    font-size: 1.5em;
+    border-bottom: 1px solid rgb(216, 222, 228);
+    font-weight: 600;
+}
+
+.markdown-body strong {
+    font-weight: 600;
+}
+
 @media print
 {    
     .no-print, .no-print *
@@ -87,5 +122,8 @@ pre .status {
         position: static;
         top: auto;
         z-index: auto;
+    }
+    .markdown-body {
+        padding: 0;
     }
 }
