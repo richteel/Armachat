@@ -15,8 +15,8 @@ class ui_setup_display(ui_screen):
                 Line("2 Display:", SimpleTextDisplay.GREEN),
                 Line("[B] Bright: %bright%", SimpleTextDisplay.WHITE),
                 Line("[S] Sleep:  %sleep% secs", SimpleTextDisplay.WHITE),
-                Line("[F] Font:   %font%", SimpleTextDisplay.WHITE),
-                Line("[T] Theme:  %theme%", SimpleTextDisplay.WHITE),
+                Line("", SimpleTextDisplay.WHITE),
+                Line("", SimpleTextDisplay.WHITE),
                 Line("", SimpleTextDisplay.WHITE),
                 Line("", SimpleTextDisplay.WHITE),
                 Line("", SimpleTextDisplay.WHITE),
@@ -28,8 +28,8 @@ class ui_setup_display(ui_screen):
                 Line("2 Display:", SimpleTextDisplay.GREEN),
                 Line("[B] Bright: %bright%", SimpleTextDisplay.WHITE),
                 Line("[S] Sleep:  %sleep% secs", SimpleTextDisplay.WHITE),
-                Line("[F] Font:   %font%", SimpleTextDisplay.WHITE),
-                Line("[T] Theme:  %theme%", SimpleTextDisplay.WHITE),
+                Line("", SimpleTextDisplay.WHITE),
+                Line("", SimpleTextDisplay.WHITE),
                 Line("", SimpleTextDisplay.WHITE),
                 Line("", SimpleTextDisplay.WHITE),
                 Line("", SimpleTextDisplay.WHITE),
@@ -76,14 +76,6 @@ class ui_setup_display(ui_screen):
                             self.vars.sound.ring()
                         else:
                             self.vars.sound.beep()
-                        self.show_screen()
-                    elif keypress["key"] == "f":
-                        self.vars.sound.ring()
-                        # TODO
-                        self.show_screen()
-                    elif keypress["key"] == "t":
-                        self.vars.sound.ring()
-                        # TODO
                         self.show_screen()
                     elif keypress["key"] in self.exit_keys:
                         self.vars.sound.ring()

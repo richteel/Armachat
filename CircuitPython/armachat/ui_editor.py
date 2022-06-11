@@ -13,13 +13,11 @@ class ui_editor(ui_screen):
 
         if self.vars.display.width_chars >= 26:
             self.lines = [
-                Line("ARMACHAT Editor          %locked%", SimpleTextDisplay.WHITE),
-                Line("[%keyLayout%] %line%:%col%/%pos%:%len%", SimpleTextDisplay.YELLOW),
+                Line("[%keyLayout%] %line%:%col%/%pos%:%len%%space%%RW%", SimpleTextDisplay.YELLOW),
             ]
         else:
             self.lines = [
-                Line("ARMACHAT Editor    %locked%", SimpleTextDisplay.WHITE),
-                Line("[%keyLayout%] %line%:%col%/%pos%:%len%", SimpleTextDisplay.YELLOW),
+                Line("[%keyLayout%] %line%:%col%/%pos%:%len%%space%%RW%", SimpleTextDisplay.YELLOW),
             ]
 
         for i in range(0, self.visibleLines):
@@ -48,6 +46,7 @@ class ui_editor(ui_screen):
         self.allowLower = True
         self.allowSpecial = True
         self.validationRegEx = None
+        self.isEditor = True
 
     def addChar(self, txt):
         addTxt = txt
@@ -223,11 +222,11 @@ class ui_editor(ui_screen):
                     linetxt = (displayLines[i][0:self.editor["cursorPosX"]]) + "_" + (displayLines[i][self.editor["cursorPosX"]:])
                 else:
                     linetxt = displayLines[i]
-                self.lines[2 + (dspLn - startLine)] = Line(linetxt, SimpleTextDisplay.WHITE)
+                self.lines[1 + (dspLn - startLine)] = Line(linetxt, SimpleTextDisplay.WHITE)
             dspLn += 1
         
         while dspLn < endLine + 1:
-            self.lines[2 + (dspLn - startLine)] = Line("", SimpleTextDisplay.WHITE)
+            self.lines[1 + (dspLn - startLine)] = Line("", SimpleTextDisplay.WHITE)
             dspLn += 1
         
         # Update last line/prompts

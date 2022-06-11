@@ -19,6 +19,7 @@ class ui_screen(object):
         self.exit_keys = []
         self.lines = []
         self.line_index = 0
+        self.isEditor = False
         self.editor = { 
             "action": "",
             "cursorPos": 0,
@@ -33,7 +34,7 @@ class ui_screen(object):
             }
         self.receiveTimeout = 0.1
         self.currentMessageIdx = 0
-        self.visibleLines = self.vars.display.height_lines - 3
+        self.visibleLines = self.vars.display.height_lines - 2
 
         self.fs_rw = "RO"
         self.fs_rw_long = "Read Only"
@@ -87,13 +88,24 @@ class ui_screen(object):
 
     def _replace_var(self, text, screen_vars):
         txt = text
+        padSpace = False
         
         for match in self._findall('\%(.+?)\%', txt):
+            if match[1:-1] == "space":
+                padSpace = True
+                next
+            
             try:
                 txt = txt.replace(match, str(screen_vars[match[1:-1]]))
             except KeyError:
                 key = match[1:-1]
                 print(f"Missing key '{key}' in screen_vars")
+
+        if padSpace:
+            spaces = self.vars.display.width_chars - (len(txt) - len("%space%"))
+            if spaces < 0:
+                spaces = 0
+            txt = txt.replace("%space%", " " * spaces)
 
         return txt
     
@@ -176,6 +188,8 @@ class ui_screen(object):
 
             if i > self.vars.display.height_lines - 1 or line > len(self.lines) - 1:
                 self.vars.display.screen[i].text = ""
+            elif self.isEditor and i > 0 and i < self.vars.display.height_lines - 2:
+                self.vars.display.screen[i].text = self.lines[line].text
             else:
                 self.vars.display.screen[i].text = \
                     self._replace_var(self.lines[line].text, screen_vars)
