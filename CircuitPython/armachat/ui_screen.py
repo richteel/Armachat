@@ -99,7 +99,8 @@ class ui_screen(object):
                 txt = txt.replace(match, str(screen_vars[match[1:-1]]))
             except KeyError:
                 key = match[1:-1]
-                print(f"Missing key '{key}' in screen_vars")
+                if key != 'space':
+                    print(f"Missing key '{key}' in screen_vars")
 
         if padSpace:
             spaces = self.vars.display.width_chars - (len(txt) - len("%space%"))
@@ -168,33 +169,50 @@ class ui_screen(object):
         
         screenColors = ()
 
+        lastProcessTime = time.monotonic()
         for i in range(0, self.vars.display.height_lines):
             line = self.line_index + i
 
             if i > self.vars.display.height_lines - 1 or line > len(self.lines) - 1:
                 screenColors += (SimpleTextDisplay.WHITE,)
+                # break
             else:
                 screenColors += (self.lines[line].color,)
+        tTime = time.monotonic() - lastProcessTime
+        print("for i in range(0, self.vars.display.height_lines) 1 -> ", tTime)
         
+        '''
+        lastProcessTime = time.monotonic()
+
         self.vars.display.screen = SimpleTextDisplay(
             display=self.vars.display.display,
             font=self.vars.display.font,
             text_scale=1,
             colors=screenColors
         )
+        self.vars.display.screen.colors = screenColors
+        
+        tTime = time.monotonic() - lastProcessTime
+        print("self.vars.display.screen = SimpleTextDisplay -> ", tTime)
+        '''
 
+        lastProcessTime = time.monotonic()
         for i in range(0, self.vars.display.height_lines):
             line = self.line_index + i
 
             if i > self.vars.display.height_lines - 1 or line > len(self.lines) - 1:
                 self.vars.display.screen[i].text = ""
+                # break
             elif self.isEditor and i > 0 and i < self.vars.display.height_lines - 2:
                 self.vars.display.screen[i].text = self.lines[line].text
+                self.vars.display.screen[i].color = screenColors[line]
             else:
-                self.vars.display.screen[i].text = \
-                    self._replace_var(self.lines[line].text, screen_vars)
-            gc.collect()
-            
+                self.vars.display.screen[i].text = self._replace_var(self.lines[line].text, screen_vars)
+                self.vars.display.screen[i].color = screenColors[line]
+            # gc.collect()
+        tTime = time.monotonic() - lastProcessTime
+        print("for i in range(0, self.vars.display.height_lines) 2 -> ", tTime)
+        
         self.vars.display.screen.show()
         self._gc()
 
@@ -403,12 +421,15 @@ class ui_screen(object):
                 if not self.checkKeys(keypress):
                     if keypress["key"] == "ent" or keypress["key"] == "rt" or keypress["key"] == "dn":
                         self.vars.sound.ring()
+                        self.vars.display.screen.text_group.remove(splash)
                         return "Y"
                     elif keypress["key"] == "bsp" or keypress["key"] == "lt" or keypress["key"] == "up":
                         self.vars.sound.ring()
+                        self.vars.display.screen.text_group.remove(splash)
                         return "N"
                     elif keypress["key"] == "alt":
                         self.vars.sound.ring()
+                        self.vars.display.screen.text_group.remove(splash)
                         self.vars.keypad.keyLayout = self.vars.keypad.keyboards[self.vars.keypad.keyboard_current_idx]["layout"]
                         return None
                     else:

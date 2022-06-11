@@ -23,6 +23,17 @@ class display(object):
         
         self.set_brightness(config.bright)
 
+        screenColors = ()
+        for q in range(1, self.height_lines-1):
+            screenColors += (SimpleTextDisplay.WHITE,)
+
+        self.screen = SimpleTextDisplay(
+            display=self.display,
+            font=self.font,
+            text_scale=1,
+            colors=screenColors
+        )
+
     def get_brightness(self):
         return self.display.brightness
     
