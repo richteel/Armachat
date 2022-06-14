@@ -88,6 +88,10 @@ class ui_editor(ui_screen):
         if self.editor["cursorPos"] > 0:
             self.editor["text"] = (self.editor["text"][0 : self.editor["cursorPos"] - 1]) + (self.editor["text"][self.editor["cursorPos"]:])
             self.editor["cursorPos"] -= 1
+
+    def printProcessTime(self, showMessage, message):
+        if showMessage:
+            print(message)
         
     def show(self):
         self.line_index = 0
@@ -103,29 +107,25 @@ class ui_editor(ui_screen):
         lastProcessTime = time.monotonic()
         maxProcessTime = 0.15
         while True:
-            if showLoopTime:
-                tTime = time.monotonic() - lastLoopTime
-                if tTime > maxLoopTime:
-                    print("Loop Time -> ", tTime)
-                    print("\n")
-                lastLoopTime = time.monotonic()
+            lastLoopTime = time.monotonic()
+
+            lastProcessTime = time.monotonic()
+            keypress = self.vars.keypad.get_key()
+            tTime = time.monotonic() - lastProcessTime
+
+            showLoopTime = keypress is not None
+            showOverProcessTime = showLoopTime
+
+            self.printProcessTime(showOverProcessTime, f"KeyPress Time -> {tTime}")
 
             lastProcessTime = time.monotonic()
             self.receive()
-            if showOverProcessTime:
-                tTime = time.monotonic() - lastProcessTime
-                if tTime > maxProcessTime:
-                    print("Receive Time -> ", tTime)
-            
-            lastProcessTime = time.monotonic()
-            keypress = self.vars.keypad.get_key()
-            if showOverProcessTime:
-                tTime = time.monotonic() - lastProcessTime
-                if tTime > maxProcessTime:
-                    print("KeyPress Time -> ", tTime)
+            self.printProcessTime(showOverProcessTime, f"Receive Time ->  {time.monotonic() - lastProcessTime}")
 
+            lastProcessTime = time.monotonic()
             if self.vars.display.sleepUpdate(keypress):
                 continue
+            self.printProcessTime(showOverProcessTime, f"Sleep/Wake Time ->  {time.monotonic() - lastProcessTime}")
 
             if keypress is not None:
                 print("keypress -> ", keypress)
@@ -163,26 +163,27 @@ class ui_editor(ui_screen):
                     elif confResult == "N":
                         return None
                 else:
+                    lastProcessTime = time.monotonic()
                     self.addChar(keypress["key"])
-                        
+                    self.printProcessTime(showOverProcessTime, f"Add Character Time ->  {time.monotonic() - lastProcessTime}")
+                    
+                    lastProcessTime = time.monotonic()
                     if not self.vars.keypad.keyLayoutLocked:
                         self.vars.keypad.change_keyboardLayout(True)
+                    self.printProcessTime(showOverProcessTime, f"Change Keyboard Layout Time ->  {time.monotonic() - lastProcessTime}")
                 
                 
                 lastProcessTime = time.monotonic()
                 self.updateDisplay(useXY)
-                if showOverProcessTime:
-                    tTime = time.monotonic() - lastProcessTime
-                    if tTime > maxProcessTime:
-                        print("Update Display Time -> ", tTime)
+                self.printProcessTime(showOverProcessTime, f"Update Display Time ->  {time.monotonic() - lastProcessTime}")
                 
                 lastProcessTime = time.monotonic()
                 self.show_screen()
-                if showOverProcessTime:
-                    tTime = time.monotonic() - lastProcessTime
-                    if tTime > maxProcessTime:
-                        print("Show Screen Time -> ", tTime)
+                self.printProcessTime(showOverProcessTime, f"Show Screen Time ->  {time.monotonic() - lastProcessTime}")
                 # self.vars.sound.ring()
+
+            self.printProcessTime(showLoopTime, f"Loop Time ->  {time.monotonic() - lastLoopTime}")
+            self.printProcessTime(showLoopTime, "\n")
 
     def updateDisplay(self, useXY = False):
         displayLines = self.editor["text"].splitlines()
