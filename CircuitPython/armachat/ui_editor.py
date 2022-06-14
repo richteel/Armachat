@@ -95,16 +95,19 @@ class ui_editor(ui_screen):
         self.show_screen()
         self.vars.display.sleepUpdate(None, True)
 
+        print("\n")
+        showLoopTime = True
         showOverProcessTime = True
         lastLoopTime = time.monotonic()
         maxLoopTime = 0.3
         lastProcessTime = time.monotonic()
         maxProcessTime = 0.15
         while True:
-            if showOverProcessTime:
+            if showLoopTime:
                 tTime = time.monotonic() - lastLoopTime
                 if tTime > maxLoopTime:
                     print("Loop Time -> ", tTime)
+                    print("\n")
                 lastLoopTime = time.monotonic()
 
             lastProcessTime = time.monotonic()
@@ -125,6 +128,7 @@ class ui_editor(ui_screen):
                 continue
 
             if keypress is not None:
+                print("keypress -> ", keypress)
                 useXY = False
                 
                 self._gc()

@@ -166,50 +166,22 @@ class ui_screen(object):
         
         if self.line_index >= len(self.lines):
             self.line_index = 0
-        
-        screenColors = ()
 
         lastProcessTime = time.monotonic()
         for i in range(0, self.vars.display.height_lines):
             line = self.line_index + i
-
-            if i > self.vars.display.height_lines - 1 or line > len(self.lines) - 1:
-                screenColors += (SimpleTextDisplay.WHITE,)
-                # break
-            else:
-                screenColors += (self.lines[line].color,)
-        tTime = time.monotonic() - lastProcessTime
-        print("for i in range(0, self.vars.display.height_lines) 1 -> ", tTime)
-        
-        '''
-        lastProcessTime = time.monotonic()
-
-        self.vars.display.screen = SimpleTextDisplay(
-            display=self.vars.display.display,
-            font=self.vars.display.font,
-            text_scale=1,
-            colors=screenColors
-        )
-        self.vars.display.screen.colors = screenColors
-        
-        tTime = time.monotonic() - lastProcessTime
-        print("self.vars.display.screen = SimpleTextDisplay -> ", tTime)
-        '''
-
-        lastProcessTime = time.monotonic()
-        for i in range(0, self.vars.display.height_lines):
-            line = self.line_index + i
+            print(f"for '{i}' in range(0, '{self.vars.display.height_lines}'):")
 
             if i > self.vars.display.height_lines - 1 or line > len(self.lines) - 1:
                 self.vars.display.screen[i].text = ""
                 # break
             elif self.isEditor and i > 0 and i < self.vars.display.height_lines - 2:
                 self.vars.display.screen[i].text = self.lines[line].text
-                self.vars.display.screen[i].color = screenColors[line]
+                self.vars.display.screen[i].color = self.lines[line].color
             else:
                 self.vars.display.screen[i].text = self._replace_var(self.lines[line].text, screen_vars)
-                self.vars.display.screen[i].color = screenColors[line]
-            # gc.collect()
+                self.vars.display.screen[i].color = self.lines[line].color
+        
         tTime = time.monotonic() - lastProcessTime
         print("for i in range(0, self.vars.display.height_lines) 2 -> ", tTime)
         
@@ -438,9 +410,9 @@ class ui_screen(object):
         # self.vars.keypad.keyLayout = self.vars.keypad.keyboards[self.vars.keypad.keyboard_current_idx]["layout"]
     
     def show_screen(self):
-        self._gc()
+        # self._gc()
         self._show_screen()
-        self._gc()    
+        # self._gc()    
     
     def textCenter(self, text, char_width):
         retText = (" " * int((char_width - len(text))/2)) + text
