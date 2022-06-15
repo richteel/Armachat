@@ -115,16 +115,21 @@ class ui_editor(ui_screen):
 
             showLoopTime = keypress is not None
             showOverProcessTime = showLoopTime
-
+            #                  h      e          l         l          o
+            # KeyPress Time -> 0.125, 0.0546875, 0.105469, 0.0585938, 0.101563
             self.printProcessTime(showOverProcessTime, f"KeyPress Time -> {tTime}")
 
             lastProcessTime = time.monotonic()
             self.receive()
+            #                  h         e         l         l         o
+            # Receive Time ->  0.101563, 0.101563, 0.101563, 0.101563, 0.105469
             self.printProcessTime(showOverProcessTime, f"Receive Time ->  {time.monotonic() - lastProcessTime}")
 
             lastProcessTime = time.monotonic()
             if self.vars.display.sleepUpdate(keypress):
                 continue
+            #                     h    e    l    l           o
+            # Sleep/Wake Time ->  0.0, 0.0, 0.0, 0.00390625, 0.0
             self.printProcessTime(showOverProcessTime, f"Sleep/Wake Time ->  {time.monotonic() - lastProcessTime}")
 
             if keypress is not None:
@@ -165,23 +170,38 @@ class ui_editor(ui_screen):
                 else:
                     lastProcessTime = time.monotonic()
                     self.addChar(keypress["key"])
+                    #                        h    e           l    l    o
+                    # Add Character Time ->  0.0, 0.00390625, 0.0, 0.0, 0.0
                     self.printProcessTime(showOverProcessTime, f"Add Character Time ->  {time.monotonic() - lastProcessTime}")
                     
                     lastProcessTime = time.monotonic()
                     if not self.vars.keypad.keyLayoutLocked:
                         self.vars.keypad.change_keyboardLayout(True)
+                    #                                 h    e    l    l    o
+                    # Change Keyboard Layout Time ->  0.0, 0.0, 0.0, 0.0, 0.0
                     self.printProcessTime(showOverProcessTime, f"Change Keyboard Layout Time ->  {time.monotonic() - lastProcessTime}")
                 
                 
                 lastProcessTime = time.monotonic()
                 self.updateDisplay(useXY)
+                #                         h           e    l    l    o
+                # Update Display Time ->  0.00390625, 0.0, 0.0, 0.0, 0.00390625
                 self.printProcessTime(showOverProcessTime, f"Update Display Time ->  {time.monotonic() - lastProcessTime}")
                 
                 lastProcessTime = time.monotonic()
                 self.show_screen()
+                #                      h         e         l         l         o
+                # Show Screen Time ->  0.425781, 0.316406, 0.320313, 0.324219, 0.328125
                 self.printProcessTime(showOverProcessTime, f"Show Screen Time ->  {time.monotonic() - lastProcessTime}")
-                # self.vars.sound.ring()
 
+                # Beep Time ->  0.00390625
+                # Ring Time ->  0.296875
+                # lastProcessTime = time.monotonic()
+                # self.vars.sound.ring()
+                # self.printProcessTime(showOverProcessTime, f"Ring Time ->  {time.monotonic() - lastProcessTime}")
+            
+            #               h         e         l         l         o
+            # Loop Time ->  0.699219, 0.519531, 0.574219, 0.535156, 0.582031
             self.printProcessTime(showLoopTime, f"Loop Time ->  {time.monotonic() - lastLoopTime}")
             self.printProcessTime(showLoopTime, "\n")
 

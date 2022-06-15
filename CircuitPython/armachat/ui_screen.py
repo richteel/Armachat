@@ -169,21 +169,25 @@ class ui_screen(object):
 
         lastProcessTime = time.monotonic()
         for i in range(0, self.vars.display.height_lines):
+            startLineTime = time.monotonic()
             line = self.line_index + i
-            print(f"for '{i}' in range(0, '{self.vars.display.height_lines}'):")
 
             if i > self.vars.display.height_lines - 1 or line > len(self.lines) - 1:
                 self.vars.display.screen[i].text = ""
                 # break
             elif self.isEditor and i > 0 and i < self.vars.display.height_lines - 2:
                 self.vars.display.screen[i].text = self.lines[line].text
-                self.vars.display.screen[i].color = self.lines[line].color
-            else:
+            elif "%" in self.lines[line].text:
                 self.vars.display.screen[i].text = self._replace_var(self.lines[line].text, screen_vars)
-                self.vars.display.screen[i].color = self.lines[line].color
+            else:
+                self.vars.display.screen[i].text = self.lines[line].text
+            
+            self.vars.display.screen[i].color = self.lines[line].color
+
+            # print(f"for '{i}' in range(0, '{self.vars.display.height_lines}'): -> {time.monotonic() - startLineTime}")
         
         tTime = time.monotonic() - lastProcessTime
-        print("for i in range(0, self.vars.display.height_lines) 2 -> ", tTime)
+        # print("for i in range(0, self.vars.display.height_lines) 2 -> ", tTime)
         
         self.vars.display.screen.show()
         self._gc()
