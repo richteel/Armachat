@@ -89,8 +89,11 @@ class ui_screen(object):
     def _replace_var(self, text, screen_vars):
         txt = text
         padSpace = False
+        _findall = self._findall
+        width_chars = self.vars.display.width_chars
+        r = _findall('\%(.+?)\%', txt)
         
-        for match in self._findall('\%(.+?)\%', txt):
+        for match in r:
             if match[1:-1] == "space":
                 padSpace = True
                 next
@@ -103,7 +106,7 @@ class ui_screen(object):
                     print(f"Missing key '{key}' in screen_vars")
 
         if padSpace:
-            spaces = self.vars.display.width_chars - (len(txt) - len("%space%"))
+            spaces = width_chars - (len(txt) - len("%space%"))
             if spaces < 0:
                 spaces = 0
             txt = txt.replace("%space%", " " * spaces)
@@ -111,39 +114,44 @@ class ui_screen(object):
         return txt
     
     def _screen_vars(self):
+        editor = self.editor
+        vars = self.vars
+        _countMessages = self._countMessages
+        currentMessageIdx = self.currentMessageIdx
+
         return {
-            "action": self.editor["action"],
+            "action": editor["action"],
             "bright": config.bright,
             "channel": str(config.getChannel()),
-            "col": self.editor["cursorPosX"],
-            "countMessagesAll": str(len(self.vars.messages)),
-            "countMessagesNew": str(self._countMessages("N")),
-            "countMessagesUndel": str(self._countMessages("S")),
+            "col": editor["cursorPosX"],
+            "countMessagesAll": str(len(vars.messages)),
+            "countMessagesNew": str(_countMessages("N")),
+            "countMessagesUndel": str(_countMessages("S")),
             "cpuTemp": "{:.2f}".format(hw.get_CpuTempC()),
             "diskSize": "{:,.1f}".format(hw.get_DiskSpaceKb()),
             "font": config.font,
             "freeSpace": "{:,.1f}".format(hw.get_FreeSpaceKb()),
             "freeRam": "{:,}".format(gc.mem_free()),
             "freq": "{:5.2f}".format(config.freq),
-            "keyLayout": self.vars.keypad.keyLayout,
-            "len": len(self.editor["text"]),
-            "locked": "L" if self.vars.keypad.keyLayoutLocked else "U",
-            "line": self.editor["cursorPosY"],
+            "keyLayout": vars.keypad.keyLayout,
+            "len": len(editor["text"]),
+            "locked": "L" if vars.keypad.keyLayoutLocked else "U",
+            "line": editor["cursorPosY"],
             "melodyIdx": str(config.melody),
-            "melodyName": self.vars.sound.get_melodyName(config.melody),
-            "melodyLenSecs": self.vars.sound.get_melodyLength(config.melody),
-            "msgFrom": self.vars.messages[self.currentMessageIdx]["from"] if len(self.vars.messages) > 0 else "",
-            "msgHop": self.vars.messages[self.currentMessageIdx]["hops"] if len(self.vars.messages) > 0 else "",
-            "msgId": self.vars.messages[self.currentMessageIdx]["id"] if len(self.vars.messages) > 0 else "",
-            "msgIdx": str(self.currentMessageIdx + 1) if len(self.vars.messages) > 0 else "0",
-            "msgRssi": self.vars.messages[self.currentMessageIdx]["rssi"] if len(self.vars.messages) > 0 else "",
-            "msgSnr": self.vars.messages[self.currentMessageIdx]["snr"] if len(self.vars.messages) > 0 else "",
-            "msgStatus": self.vars.messages[self.currentMessageIdx]["status"] if len(self.vars.messages) > 0 else "",
-            "msgTime": self.vars.messages[self.currentMessageIdx]["timestamp"] if len(self.vars.messages) > 0 else "",
-            "msgTo": self.vars.messages[self.currentMessageIdx]["to"] if len(self.vars.messages) > 0 else "",
+            "melodyName": vars.sound.get_melodyName(config.melody),
+            "melodyLenSecs": vars.sound.get_melodyLength(config.melody),
+            "msgFrom": vars.messages[currentMessageIdx]["from"] if len(vars.messages) > 0 else "",
+            "msgHop": vars.messages[currentMessageIdx]["hops"] if len(vars.messages) > 0 else "",
+            "msgId": vars.messages[currentMessageIdx]["id"] if len(vars.messages) > 0 else "",
+            "msgIdx": str(currentMessageIdx + 1) if len(vars.messages) > 0 else "0",
+            "msgRssi": vars.messages[currentMessageIdx]["rssi"] if len(vars.messages) > 0 else "",
+            "msgSnr": vars.messages[currentMessageIdx]["snr"] if len(vars.messages) > 0 else "",
+            "msgStatus": vars.messages[currentMessageIdx]["status"] if len(vars.messages) > 0 else "",
+            "msgTime": vars.messages[currentMessageIdx]["timestamp"] if len(vars.messages) > 0 else "",
+            "msgTo": vars.messages[currentMessageIdx]["to"] if len(vars.messages) > 0 else "",
             "myAddress": str(config.myAddress),
             "myName": config.myName,
-            "pos": self.editor["cursorPos"],
+            "pos": editor["cursorPos"],
             "power": str(config.power),
             "profile": str(config.loraProfile),
             "profileName": config.loraProfiles[config.loraProfile - 1]["modemPresetConfig"],
@@ -151,45 +159,57 @@ class ui_screen(object):
             "region": config.region,
             "RW": self.fs_rw,
             "RWlong": self.fs_rw_long,
-            "sleep": self.vars.display.get_sleepTime(),
+            "sleep": vars.display.get_sleepTime(),
             "theme": config.theme,
-            "toAddress": self.vars.address_book[self.vars.to_dest_idx]["address"],
-            "toName": self.vars.address_book[self.vars.to_dest_idx]["name"],
+            "toAddress": vars.address_book[vars.to_dest_idx]["address"],
+            "toName": vars.address_book[vars.to_dest_idx]["name"],
             "tone": str(config.tone),
             "usbConnected": "USB power connected" if hw.VBUS_status.value else "No USB power",
             "volume": str(config.volume),
             "vsys": "{:5.2f} V".format(hw.get_VSYSvoltage()),
         }
     
+    # Speedup attempt by caching self referenced variables
+    # REF: https://urish.medium.com/embedded-python-cranking-performance-knob-up-to-eleven-df31a5940a63
+    # Prior to change execution time was 0.34375 to 0.408203
     def _show_screen(self):
         screen_vars = self._screen_vars()
+        line_index = self.line_index
+        display = self.vars.display
+        height_lines = self.vars.display.height_lines
+        screen = self.vars.display.screen
+        lines = self.lines
+        isEditor = self.isEditor
+        _replace_var = self._replace_var
+
         
-        if self.line_index >= len(self.lines):
-            self.line_index = 0
+        if line_index >= len(self.lines):
+            line_index = 0
 
-        lastProcessTime = time.monotonic()
-        for i in range(0, self.vars.display.height_lines):
-            startLineTime = time.monotonic()
-            line = self.line_index + i
+        r = range(0, height_lines)
+        # lastProcessTime = time.monotonic()
+        for i in r:
+            # startLineTime = time.monotonic()
+            line = line_index + i
 
-            if i > self.vars.display.height_lines - 1 or line > len(self.lines) - 1:
-                self.vars.display.screen[i].text = ""
+            if i > height_lines - 1 or line > len(lines) - 1:
+                screen[i].text = ""
                 # break
-            elif self.isEditor and i > 0 and i < self.vars.display.height_lines - 2:
-                self.vars.display.screen[i].text = self.lines[line].text
-            elif "%" in self.lines[line].text:
-                self.vars.display.screen[i].text = self._replace_var(self.lines[line].text, screen_vars)
+            elif isEditor and i > 0 and i < height_lines - 2:
+                screen[i].text = lines[line].text
+            elif "%" in lines[line].text:
+                screen[i].text = _replace_var(lines[line].text, screen_vars)
             else:
-                self.vars.display.screen[i].text = self.lines[line].text
+                screen[i].text = lines[line].text
             
-            self.vars.display.screen[i].color = self.lines[line].color
+            screen[i].color = lines[line].color
 
-            # print(f"for '{i}' in range(0, '{self.vars.display.height_lines}'): -> {time.monotonic() - startLineTime}")
+            # print(f"for '{i}' in range(0, '{display.height_lines}'): -> {time.monotonic() - startLineTime}")
         
-        tTime = time.monotonic() - lastProcessTime
-        # print("for i in range(0, self.vars.display.height_lines) 2 -> ", tTime)
+        # tTime = time.monotonic() - lastProcessTime
+        # print("for i in range(0, display.height_lines) 2 -> ", tTime)
         
-        self.vars.display.screen.show()
+        screen.show()
         self._gc()
 
     def appendMessage(self, message):

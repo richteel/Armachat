@@ -107,7 +107,6 @@ class ui_editor(ui_screen):
         lastProcessTime = time.monotonic()
         maxProcessTime = 0.15
         while True:
-            lastLoopTime = time.monotonic()
 
             lastProcessTime = time.monotonic()
             keypress = self.vars.keypad.get_key()
@@ -117,7 +116,8 @@ class ui_editor(ui_screen):
             showOverProcessTime = showLoopTime
             #                  h      e          l         l          o
             # KeyPress Time -> 0.125, 0.0546875, 0.105469, 0.0585938, 0.101563
-            self.printProcessTime(showOverProcessTime, f"KeyPress Time -> {tTime}")
+            # self.printProcessTime(showOverProcessTime, f"KeyPress Time -> {tTime}")
+            lastLoopTime = time.monotonic()
 
             lastProcessTime = time.monotonic()
             self.receive()
