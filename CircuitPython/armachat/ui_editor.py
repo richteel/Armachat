@@ -108,9 +108,9 @@ class ui_editor(ui_screen):
         maxProcessTime = 0.15
         while True:
 
-            lastProcessTime = time.monotonic()
+            # lastProcessTime = time.monotonic()
             keypress = self.vars.keypad.get_key()
-            tTime = time.monotonic() - lastProcessTime
+            # tTime = time.monotonic() - lastProcessTime
 
             showLoopTime = keypress is not None
             showOverProcessTime = showLoopTime
@@ -206,13 +206,16 @@ class ui_editor(ui_screen):
             self.printProcessTime(showLoopTime, "\n")
 
     def updateDisplay(self, useXY = False):
-        displayLines = self.editor["text"].splitlines()
+        editor = self.editor
+        lines = self.lines
+
+        displayLines = editor["text"].splitlines()
         loopPos = 0
 
         # determine which lines to display (Allow for vertical scrolling)
         startLine = 0
-        if self.visibleLines - self.editor["cursorPosY"] <= 0:
-            startLine = (self.editor["cursorPosY"] - self.visibleLines) + 1
+        if self.visibleLines - editor["cursorPosY"] <= 0:
+            startLine = (editor["cursorPosY"] - self.visibleLines) + 1
         
         endLine = startLine + self.visibleLines - 1
         dspLn = 0
@@ -224,19 +227,19 @@ class ui_editor(ui_screen):
                 loopPos += 1  # Count newline char
 
             if not useXY:
-                if loopPos + len(displayLines[i]) >= self.editor["cursorPos"] and loopPos <= self.editor["cursorPos"]:
-                    self.editor["cursorPosX"] = self.editor["cursorPos"] - loopPos
-                    self.editor["cursorPosY"] = i
+                if loopPos + len(displayLines[i]) >= editor["cursorPos"] and loopPos <= editor["cursorPos"]:
+                    editor["cursorPosX"] = editor["cursorPos"] - loopPos
+                    editor["cursorPosY"] = i
                     lineHasCursor = True
             else:
-                if self.editor["cursorPosY"] == i:
-                    if self.editor["cursorPosX"] > len(displayLines[i]) and self.editor["cursorPosX"] < len(displayLines):
-                        self.editor["cursorPosY"] += 1
-                        self.editor["cursorPosX"] = 0
+                if editor["cursorPosY"] == i:
+                    if editor["cursorPosX"] > len(displayLines[i]) and editor["cursorPosX"] < len(displayLines):
+                        editor["cursorPosY"] += 1
+                        editor["cursorPosX"] = 0
                     else:
-                        if self.editor["cursorPosX"] == -1 or self.editor["cursorPosX"] > len(displayLines[i]):
-                            self.editor["cursorPosX"] = len(displayLines[i])
-                        self.editor["cursorPos"] = loopPos + self.editor["cursorPosX"]
+                        if editor["cursorPosX"] == -1 or editor["cursorPosX"] > len(displayLines[i]):
+                            editor["cursorPosX"] = len(displayLines[i])
+                        editor["cursorPos"] = loopPos + editor["cursorPosX"]
                         lineHasCursor = True
             
             loopPos += len(displayLines[i])
@@ -244,21 +247,21 @@ class ui_editor(ui_screen):
             if dspLn >= startLine and dspLn <= endLine:
                 linetxt = ""
                 if lineHasCursor:
-                    linetxt = (displayLines[i][0:self.editor["cursorPosX"]]) + "_" + (displayLines[i][self.editor["cursorPosX"]:])
+                    linetxt = (displayLines[i][0:editor["cursorPosX"]]) + "_" + (displayLines[i][editor["cursorPosX"]:])
                 else:
                     linetxt = displayLines[i]
-                self.lines[1 + (dspLn - startLine)] = Line(linetxt, SimpleTextDisplay.WHITE)
+                lines[1 + (dspLn - startLine)] = Line(linetxt, SimpleTextDisplay.WHITE)
             dspLn += 1
         
         while dspLn < endLine + 1:
-            self.lines[1 + (dspLn - startLine)] = Line("", SimpleTextDisplay.WHITE)
+            lines[1 + (dspLn - startLine)] = Line("", SimpleTextDisplay.WHITE)
             dspLn += 1
         
         # Update last line/prompts
-        if self.editor["maxLines"] == 1 and self.vars.keypad.keyboard_current_idx == 2:
-            self.lines[len(self.lines) - 1] = Line("", SimpleTextDisplay.GREEN)
+        if editor["maxLines"] == 1 and self.vars.keypad.keyboard_current_idx == 2:
+            lines[len(lines) - 1] = Line("", SimpleTextDisplay.GREEN)
         else:
-            self.lines[len(self.lines) - 1] = \
+            lines[len(lines) - 1] = \
                 self.actionLine26[self.vars.keypad.keyboard_current_idx] \
                 if self.vars.display.width_chars >= 26 \
                 else self.actionLine20[self.vars.keypad.keyboard_current_idx]

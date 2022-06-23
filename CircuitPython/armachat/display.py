@@ -12,7 +12,7 @@ class display(object):
         self.display = hw.display
         self.font = hw.font
         self._lastBrightness = self.display.brightness
-        self._lastKeyBacklight = hw.keyboard_bl.value
+        self._lastKeyBacklight = None if hw.keyboard_bl is None else hw.keyboard_bl.value
         self._brightsteps = [0.01, 0.05, 0.1, 0.5, 1.0]
         self._lastKeyPress = time.monotonic()
         self._sleep = False
@@ -108,14 +108,16 @@ class display(object):
             if self._sleep:
                 self._sleep = False
                 self.set_brightness(config.bright)
-                hw.keyboard_bl.value = self._lastKeyBacklight
+                if self._lastKeyBacklight is not None:                    
+                    hw.keyboard_bl.value = self._lastKeyBacklight
         elif not self._sleep:
             now = time.monotonic()
             if config.sleep != 0 and now >= self._lastKeyPress + self._sleepsteps[config.sleep]:
                 self._sleep = True
                 self.display.brightness = 0
-                self._lastKeyBacklight = hw.keyboard_bl.value
-                hw.keyboard_bl.value = 0
+                if self._lastKeyBacklight is not None:
+                    self._lastKeyBacklight = hw.keyboard_bl.value
+                    hw.keyboard_bl.value = 0
 
         return bool(beginSleepState ^ self._sleep)
 

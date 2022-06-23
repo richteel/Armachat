@@ -32,7 +32,7 @@ class ui_screen(object):
             "validationMsg1": "",
             "validationMsg2": "",
             }
-        self.receiveTimeout = 0.1
+        self.receiveTimeout = 0.05
         self.currentMessageIdx = 0
         self.visibleLines = self.vars.display.height_lines - 2
 
@@ -54,8 +54,9 @@ class ui_screen(object):
         return c
 
     def _findall(self, pattern, string):
+        re_search = re.search
         while True:
-            match = re.search(pattern, string)
+            match = re_search(pattern, string)
             if not match:
                 break
             yield match.group(0)
@@ -175,7 +176,6 @@ class ui_screen(object):
     def _show_screen(self):
         screen_vars = self._screen_vars()
         line_index = self.line_index
-        display = self.vars.display
         height_lines = self.vars.display.height_lines
         screen = self.vars.display.screen
         lines = self.lines
@@ -183,7 +183,7 @@ class ui_screen(object):
         _replace_var = self._replace_var
 
         
-        if line_index >= len(self.lines):
+        if line_index >= len(lines):
             line_index = 0
 
         r = range(0, height_lines)
