@@ -25,6 +25,7 @@ class keyboard(object):
         self.keyLayout = self.keyboards[self.keyboard_current_idx]["layout"]
         self.keyLayoutLocked = False
         self.alt_is_esc = True
+        self.keybuffer = [];
 
     def change_keyboardLayout(self, reset=False):
         if reset:
@@ -42,12 +43,12 @@ class keyboard(object):
 
         self.keyLayout = self.keyboards[self.keyboard_current_idx]["layout"]
 
-    def get_key(self):
+    def check_keys(self):
         LONG_PRESS_TIME = 0.5
         keys = self._keypad.pressed_keys
 
         if len(keys) == 0:
-            return None
+            return
 
         pressedTime = time.monotonic()
         pressedKey = keys[0]
@@ -79,7 +80,15 @@ class keyboard(object):
             self.change_keyboardLayout(True)
         '''
 
-        return {"key" : pressedKey, "longPress" : longPress}
+        self.keybuffer.append({"key" : pressedKey, "longPress" : longPress})
+
+    def get_key(self):
+        self.check_keys()
+
+        if len(self.keybuffer) == 0:
+            return None        
+
+        return self.keybuffer.pop(0)
 
     def toggleBacklight(self):
         if hw.keyboard_bl is None:

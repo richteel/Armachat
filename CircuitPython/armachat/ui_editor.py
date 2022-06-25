@@ -88,10 +88,6 @@ class ui_editor(ui_screen):
         if self.editor["cursorPos"] > 0:
             self.editor["text"] = (self.editor["text"][0 : self.editor["cursorPos"] - 1]) + (self.editor["text"][self.editor["cursorPos"]:])
             self.editor["cursorPos"] -= 1
-
-    def printProcessTime(self, showMessage, message):
-        if showMessage:
-            print(message)
         
     def show(self):
         self.line_index = 0
@@ -99,38 +95,13 @@ class ui_editor(ui_screen):
         self.show_screen()
         self.vars.display.sleepUpdate(None, True)
 
-        print("\n")
-        showLoopTime = True
-        showOverProcessTime = True
-        lastLoopTime = time.monotonic()
-        maxLoopTime = 0.3
-        lastProcessTime = time.monotonic()
-        maxProcessTime = 0.15
         while True:
-
-            # lastProcessTime = time.monotonic()
             keypress = self.vars.keypad.get_key()
-            # tTime = time.monotonic() - lastProcessTime
 
-            showLoopTime = keypress is not None
-            showOverProcessTime = showLoopTime
-            #                  h      e          l         l          o
-            # KeyPress Time -> 0.125, 0.0546875, 0.105469, 0.0585938, 0.101563
-            # self.printProcessTime(showOverProcessTime, f"KeyPress Time -> {tTime}")
-            lastLoopTime = time.monotonic()
-
-            lastProcessTime = time.monotonic()
             self.receive()
-            #                  h         e         l         l         o
-            # Receive Time ->  0.101563, 0.101563, 0.101563, 0.101563, 0.105469
-            self.printProcessTime(showOverProcessTime, f"Receive Time ->  {time.monotonic() - lastProcessTime}")
 
-            lastProcessTime = time.monotonic()
             if self.vars.display.sleepUpdate(keypress):
                 continue
-            #                     h    e    l    l           o
-            # Sleep/Wake Time ->  0.0, 0.0, 0.0, 0.00390625, 0.0
-            self.printProcessTime(showOverProcessTime, f"Sleep/Wake Time ->  {time.monotonic() - lastProcessTime}")
 
             if keypress is not None:
                 print("keypress -> ", keypress)
@@ -168,42 +139,14 @@ class ui_editor(ui_screen):
                     elif confResult == "N":
                         return None
                 else:
-                    lastProcessTime = time.monotonic()
                     self.addChar(keypress["key"])
-                    #                        h    e           l    l    o
-                    # Add Character Time ->  0.0, 0.00390625, 0.0, 0.0, 0.0
-                    self.printProcessTime(showOverProcessTime, f"Add Character Time ->  {time.monotonic() - lastProcessTime}")
                     
-                    lastProcessTime = time.monotonic()
                     if not self.vars.keypad.keyLayoutLocked:
                         self.vars.keypad.change_keyboardLayout(True)
-                    #                                 h    e    l    l    o
-                    # Change Keyboard Layout Time ->  0.0, 0.0, 0.0, 0.0, 0.0
-                    self.printProcessTime(showOverProcessTime, f"Change Keyboard Layout Time ->  {time.monotonic() - lastProcessTime}")
                 
-                
-                lastProcessTime = time.monotonic()
                 self.updateDisplay(useXY)
-                #                         h           e    l    l    o
-                # Update Display Time ->  0.00390625, 0.0, 0.0, 0.0, 0.00390625
-                self.printProcessTime(showOverProcessTime, f"Update Display Time ->  {time.monotonic() - lastProcessTime}")
                 
-                lastProcessTime = time.monotonic()
                 self.show_screen()
-                #                      h         e         l         l         o
-                # Show Screen Time ->  0.425781, 0.316406, 0.320313, 0.324219, 0.328125
-                self.printProcessTime(showOverProcessTime, f"Show Screen Time ->  {time.monotonic() - lastProcessTime}")
-
-                # Beep Time ->  0.00390625
-                # Ring Time ->  0.296875
-                # lastProcessTime = time.monotonic()
-                # self.vars.sound.ring()
-                # self.printProcessTime(showOverProcessTime, f"Ring Time ->  {time.monotonic() - lastProcessTime}")
-            
-            #               h         e         l         l         o
-            # Loop Time ->  0.699219, 0.519531, 0.574219, 0.535156, 0.582031
-            self.printProcessTime(showLoopTime, f"Loop Time ->  {time.monotonic() - lastLoopTime}")
-            self.printProcessTime(showLoopTime, "\n")
 
     def updateDisplay(self, useXY = False):
         editor = self.editor

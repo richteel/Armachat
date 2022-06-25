@@ -181,15 +181,15 @@ class ui_screen(object):
         lines = self.lines
         isEditor = self.isEditor
         _replace_var = self._replace_var
+        check_keys = self.vars.keypad.check_keys
 
         
         if line_index >= len(lines):
             line_index = 0
 
         r = range(0, height_lines)
-        # lastProcessTime = time.monotonic()
         for i in r:
-            # startLineTime = time.monotonic()
+            check_keys()
             line = line_index + i
 
             if i > height_lines - 1 or line > len(lines) - 1:
@@ -203,11 +203,6 @@ class ui_screen(object):
                 screen[i].text = lines[line].text
             
             screen[i].color = lines[line].color
-
-            # print(f"for '{i}' in range(0, '{display.height_lines}'): -> {time.monotonic() - startLineTime}")
-        
-        # tTime = time.monotonic() - lastProcessTime
-        # print("for i in range(0, display.height_lines) 2 -> ", tTime)
         
         screen.show()
         self._gc()
