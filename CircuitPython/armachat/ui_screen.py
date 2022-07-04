@@ -32,9 +32,10 @@ class ui_screen(object):
             "validationMsg1": "",
             "validationMsg2": "",
             }
-        self.receiveTimeout = 0.05
+        self.receiveTimeout = 0.025
         self.currentMessageIdx = 0
         self.visibleLines = self.vars.display.height_lines - 2
+        self.drawStart = 0
 
         self.fs_rw = "RO"
         self.fs_rw_long = "Read Only"
@@ -182,14 +183,25 @@ class ui_screen(object):
         isEditor = self.isEditor
         _replace_var = self._replace_var
         check_keys = self.vars.keypad.check_keys
-
+        receive = self.receive
+        thisDrawStart = time.monotonic()
         
         if line_index >= len(lines):
             line_index = 0
 
+        if self.drawStart < thisDrawStart:
+            self.drawStart = thisDrawStart
+
         r = range(0, height_lines)
         for i in r:
+            if self.drawStart > thisDrawStart:
+                print("********* Another request to draw the screen occurred *********")
+                return
+            print("LOOP(", i, "): drawStart -> ", self.drawStart, "thisDrawStart -> ", thisDrawStart)
+
             check_keys()
+            if i % 2 == 1:  # Reveive every other tiome through the loop
+                receive()
             line = line_index + i
 
             if i > height_lines - 1 or line > len(lines) - 1:
@@ -340,6 +352,7 @@ class ui_screen(object):
             self._gc()
     
     def sendConfirmation(self, message):
+        print("Sending Confirmation")
         msgto = message["to"]
         confirmationMessage = message.copy()
         confirmationMessage["flag2"] = 33

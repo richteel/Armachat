@@ -351,7 +351,7 @@ class LoRa(object):
             to + bytearray(self._this_address) + msgId + flags
         )
 
-        self.log.logValue("send", "header", header)
+        self.log.logValue("send", "header", list(header))
 
         if type(data) == int:
             data = [data]
@@ -362,7 +362,7 @@ class LoRa(object):
         # elif type(data) == list:
         #    data = bytearray(data)
 
-        self.log.logValue("send", "data", data)
+        self.log.logValue("send", "data", list(data))
 
         payload = list(header) + list(data)
         self.log.logValue("send", "payload", payload)
@@ -389,6 +389,10 @@ class LoRa(object):
 
         self._spi_write(REG_12_IRQ_FLAGS, 0xFF)  # Clear all IRQ flags
         self.set_mode_idle()
+        print("msg_sent -> ", msg_sent)
+        print("to -> ", list(to))
+        # print("from -> ", ac_address.addressLst2Str(list(self._this_address)))
+        print("from -> ", self._this_address)
         return msg_sent
 
     '''
@@ -521,6 +525,9 @@ class LoRa(object):
                  list(header_to) == self.broadcastAddress or
                  self._receive_all):
             msgTxt = self.decryptMessage(message)
+            self.log.logMessage("receive",
+                                "Addressed to:" +
+                                ac_address.addressLst2Str(list(header_to)))
             return {
                 "to": ac_address.addressLst2Str(list(header_to)),
                 "from": ac_address.addressLst2Str(list(header_from)),
