@@ -18,5 +18,116 @@ title: User Manual
 	<li>Armachat Watch with 160x80 pixel screen utilizing ST7735R controller</li>
 </ul>
 
-<h2>Initial Setup/Hardware Configuration</h2>
+<p>
+	These steps assume that you have already setup your Raspberry Pi Pico or RP2040 board with CircuitPython and
+	have copied the Armachat software onto the board.
+</p>
 
+<h2>Initial Setup/Hardware Configuration</h2>
+<p>
+	The default hardware setup is for the Armachat Compact with 320x240 pixel screen utilizing ST7789 controller. 
+	If you have different hardware, you will need to edit the armachat/config.py or the config.txt file.
+	If the config.txt file exists, it supersedes the settings in the armachat/config.py file. The directions will 
+	show editing of the config.txt as that is the preferred method for configuring the Armachat.
+<p>
+
+<p>
+	To configure an Armachat, such as the Armachat Watch, follow these steps.
+</p>
+<ol>
+	<li>
+		If the Armachat does not have a config.txt file in the root directory, create one. You may copy the following
+		contents to place in the config.txt file.<br />
+		<pre># Brightness may be from 0 to 4
+bright = 4
+
+# Volume may be from 0 to 6
+volume = 6
+
+# Sleep may be 0 to 6
+#	0 = Never		4 = 120
+#	1 = 15 secs		5 = 300
+#	2 = 30 secs		6 = 600
+#	3 = 60
+sleep = 0
+
+# Tone may be from 1000 to 10000 in steps of 1000
+tone = 5000
+
+# Melody may be from 0 to length of items minus one, in melodies 
+# list of the included melody file in audio.py
+melody = 30
+
+# Region values may be 
+# US, EU433, EU868, CN, JP, ANZ, RU, KR, TW, IN, NZ865, TH, Unset
+region = "US"
+
+# LoRa Profile may be from 1 to 6
+# Matches Mestastic values in table at
+# https://meshtastic.org/docs/settings/channel
+#	1 = Bw500Cr45Sf128       Short/Fast
+#	2 = Bw125Cr45Sf128       Short/Slow
+#	3 = Bw250Cr47Sf1024      Medium/Fast
+#	4 = Bw250Cr46Sf2048      Medium/Slow
+#	5 = Bw31_25Cr48Sf512     Long/Fast
+#	6 = Bw125Cr48Sf4096      Long/Slow
+loraProfile = 1
+
+# Frequency values are dependent on the module freq
+freq = 915.25
+
+# Power values may be 5 to 23
+power = 5
+
+hopLimit = 3
+unitName = "ARMACHAT"
+myName = "Test 1"
+myAddress = "12-36-124-1"
+groupMask = "255-255-255-0"
+destinations = "Test 2|12-36-124-2|Test 3|12-36-124-3|Test 4|12-36-124-4"
+password = "Sixteen byte key"
+passwordIv = "Sixteen byte key"
+# Model value may be max, compact, or watch
+model = "watch"
+</pre><br />
+	</li>
+	<li>
+		Edit the "model" value by setting it to one following values:
+		<ul>
+			<li>
+				max
+				<ul>
+					<li>Display Resolution: 320x240 pixels (Rotation: 270&deg;)</li>
+					<li>Display Controller: ST7789</li>
+				</ul>
+			</li>
+			<li>
+				compact
+				<ul>
+					<li>Display Resolution: 320x240 pixels (Rotation: 270&deg;)</li>
+					<li>Display Controller: ST7789</li>
+				</ul>
+			</li>
+			<li>
+				watch
+				<ul>
+					<li>Display Resolution: 160x80 pixels (Rotation: 90&deg;)</li>
+					<li>Display Controller: ST7789</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<li>
+		If you are not located in the United States, you may need to modify the radio settings 
+		to stay compliant with your local communications laws. The following settings are the 
+		radio settings.
+		<ul>
+			<li>region</li>
+			<li>loraProfile</li>
+			<li>freq</li>
+			<li>power</li>
+		</ul>
+	</li>
+	<li></li>
+	<li></li>
+</ol>
