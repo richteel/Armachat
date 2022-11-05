@@ -39,13 +39,12 @@ class ui_messages_view(ui_screen):
         # TODO: Display message
 
         self.updateMessageDisplay()
-        self.show_screen()
 
     def displayDetails(self):
         self.currentDisplayDetails = True
         if self.vars.display.width_chars >= 26:
             self.lines = [
-                Line("ARMACHAT %freq% MHz     %RW%", SimpleTextDisplay.WHITE),
+                Line("ARMACHAT %freq% MHz%space%%RW%", SimpleTextDisplay.WHITE),
                 Line("Message: %msgIdx% of %countMessagesAll%", SimpleTextDisplay.GREEN),
                 Line("Status: %msgStatus%", SimpleTextDisplay.WHITE),
                 Line("To: %msgTo%", SimpleTextDisplay.WHITE),
@@ -58,7 +57,7 @@ class ui_messages_view(ui_screen):
             ]
         else:
             self.lines = [
-                Line("%freq% MHz        %RW%", SimpleTextDisplay.WHITE),
+                Line("%freq% MHz%space%%RW%", SimpleTextDisplay.WHITE),
                 Line("Message: %msgIdx% of %countMessagesAll%", SimpleTextDisplay.GREEN),
                 Line("Status: %msgStatus%", SimpleTextDisplay.WHITE),
                 Line("To: %msgTo%", SimpleTextDisplay.WHITE),
@@ -77,7 +76,6 @@ class ui_messages_view(ui_screen):
     def show(self):
         self.line_index = 0
         self.updateMessageDisplay()
-        self.show_screen()
         self.vars.display.sleepUpdate(None, True)
 
         while True:
@@ -121,13 +119,13 @@ class ui_messages_view(ui_screen):
                                 self.displayDetails()
                         else:
                             self.vars.sound.beep()
-                    elif keypress["key"] == "O":
+                    elif keypress["key"] == "o":
                         self.scrollTopLine -= 1
                         if self.updateMessageDisplay():
                             self.vars.sound.ring()
                         else:
                             self.vars.sound.beep()
-                    elif keypress["key"] == "L":
+                    elif keypress["key"] == "l":
                         self.scrollTopLine += 1
                         if self.updateMessageDisplay():
                             self.vars.sound.ring()
@@ -164,6 +162,10 @@ class ui_messages_view(ui_screen):
                 self.lines[2 + i] = Line("", SimpleTextDisplay.WHITE)
             else:
                 self.lines[2 + i] = Line(displayLines[lineIndex], SimpleTextDisplay.WHITE)
+
+        if self.vars.messages[self.currentMessageIdx]["status"] == "N":
+            self.vars.messages[self.currentMessageIdx]["status"] = "R"
         
+        self.show_screen()
         return True
         

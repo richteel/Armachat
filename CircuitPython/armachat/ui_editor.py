@@ -13,11 +13,11 @@ class ui_editor(ui_screen):
 
         if self.vars.display.width_chars >= 26:
             self.lines = [
-                Line("[%keyLayout%] %line%:%col%/%pos%:%len%%space%%RW%", SimpleTextDisplay.YELLOW),
+                Line("[%keyLayout%] %line%:%col%/%pos%:%len%%space%%locked%", SimpleTextDisplay.YELLOW),
             ]
         else:
             self.lines = [
-                Line("[%keyLayout%] %line%:%col%/%pos%:%len%%space%%RW%", SimpleTextDisplay.YELLOW),
+                Line("[%keyLayout%] %line%:%col%/%pos%:%len%%space%%lockedm8 u%", SimpleTextDisplay.YELLOW),
             ]
 
         for i in range(0, self.visibleLines):
@@ -90,17 +90,28 @@ class ui_editor(ui_screen):
             self.editor["cursorPos"] -= 1
         
     def show(self):
+        lines = self.lines
+        get_key = self.vars.keypad.get_key
+        ring = self.vars.sound.ring
+        sleepUpdate = self.vars.display.sleepUpdate
+        updateScreenPrompts = self.updateScreenPrompts
+        show_screen = self.show_screen
+        updateDisplay = self.updateDisplay
+
         self.line_index = 0
-        self.updateDisplay(True)
-        self.show_screen()
-        self.vars.display.sleepUpdate(None, True)
+        updateDisplay(True)
+        self.updateStart = 0
+        self.updateEnd = len(self.lines)
+        updateScreenPrompts()
+        show_screen()
+        sleepUpdate(None, True)
 
         while True:
-            keypress = self.vars.keypad.get_key()
+            keypress = get_key()
 
             self.receive()
 
-            if self.vars.display.sleepUpdate(keypress):
+            if sleepUpdate(keypress):
                 continue
 
             if keypress is not None:
@@ -114,6 +125,12 @@ class ui_editor(ui_screen):
                     else:
                         self.vars.keypad.keyLayoutLocked = False
                         self.vars.keypad.change_keyboardLayout()
+                    updateScreenPrompts()
+                    self.updateStart = 0
+                    self.updateEnd = 0
+                    show_screen()
+                    self.updateStart = len(lines) - 1
+                    self.updateEnd = len(lines) - 1
                 elif keypress["longPress"] and (keypress["key"] == "ent" or keypress["key"] == "rt" or keypress["key"] == "dn"):
                     self.addChar("\n")
                 elif keypress["key"] == "bsp":
@@ -131,7 +148,7 @@ class ui_editor(ui_screen):
                     self.moveCursor(1, 0)
                     useXY = True
                 elif keypress["key"] == "ent":
-                    self.vars.sound.ring()
+                    ring()
                     confResult = self.showConfirmation()
                     
                     if confResult == "Y":
@@ -144,9 +161,10 @@ class ui_editor(ui_screen):
                     if not self.vars.keypad.keyLayoutLocked:
                         self.vars.keypad.change_keyboardLayout(True)
                 
-                self.updateDisplay(useXY)
+                if keypress["key"] != "alt":
+                    updateDisplay(useXY)
                 
-                self.show_screen()
+                show_screen()
 
     def updateDisplay(self, useXY = False):
         editor = self.editor
@@ -154,6 +172,8 @@ class ui_editor(ui_screen):
 
         displayLines = editor["text"].splitlines()
         loopPos = 0
+
+        currentCursorY = editor["cursorPosY"] + 1
 
         # determine which lines to display (Allow for vertical scrolling)
         startLine = 0
@@ -191,6 +211,7 @@ class ui_editor(ui_screen):
                 linetxt = ""
                 if lineHasCursor:
                     linetxt = (displayLines[i][0:editor["cursorPosX"]]) + "_" + (displayLines[i][editor["cursorPosX"]:])
+                    currentCursorY = i + 1
                 else:
                     linetxt = displayLines[i]
                 lines[1 + (dspLn - startLine)] = Line(linetxt, SimpleTextDisplay.WHITE)
@@ -199,15 +220,37 @@ class ui_editor(ui_screen):
         while dspLn < endLine + 1:
             lines[1 + (dspLn - startLine)] = Line("", SimpleTextDisplay.WHITE)
             dspLn += 1
-        
-        # Update last line/prompts
-        if editor["maxLines"] == 1 and self.vars.keypad.keyboard_current_idx == 2:
+
+        startUpdateLine = currentCursorY - 1
+        endUpdateLine = currentCursorY + 1
+        if startUpdateLine < 1:
+            startUpdateLine = 1
+        if endUpdateLine > len(lines) - 2:
+            endUpdateLine = len(lines) - 2
+
+        # Update first line
+        self.updateStart = 0
+        self.updateEnd = 0
+        self.show_screen()
+        self.updateStart = startUpdateLine
+        self.updateEnd = endUpdateLine
+
+    def updateScreenPrompts(self):
+        editor = self.editor
+        lines = self.lines
+        keyboard_current_idx = self.vars.keypad.keyboard_current_idx
+
+        if editor["maxLines"] == 1 and keyboard_current_idx == 2:
             lines[len(lines) - 1] = Line("", SimpleTextDisplay.GREEN)
+            
+            # print("keyboard_current_idx (editor[\"maxLines\"]) -> ", keyboard_current_idx)
         else:
             lines[len(lines) - 1] = \
-                self.actionLine26[self.vars.keypad.keyboard_current_idx] \
+                self.actionLine26[keyboard_current_idx] \
                 if self.vars.display.width_chars >= 26 \
-                else self.actionLine20[self.vars.keypad.keyboard_current_idx]
+                else self.actionLine20[keyboard_current_idx]
+            
+            # print("keyboard_current_idx -> ", keyboard_current_idx)
 
     def validateText(self, text):
         if self.editor["maxLen"] > 0 and len(self.editor["text"]) > self.editor["maxLen"]:

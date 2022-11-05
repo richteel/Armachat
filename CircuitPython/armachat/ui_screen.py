@@ -36,6 +36,8 @@ class ui_screen(object):
         self.currentMessageIdx = 0
         self.visibleLines = self.vars.display.height_lines - 2
         self.drawStart = 0
+        self.updateStart = 0
+        self.updateEnd = 9
 
         self.fs_rw = "RO"
         self.fs_rw_long = "Read Only"
@@ -170,11 +172,9 @@ class ui_screen(object):
             "volume": str(config.volume),
             "vsys": "{:5.2f} V".format(hw.get_VSYSvoltage()),
         }
-    
-    # Speedup attempt by caching self referenced variables
-    # REF: https://urish.medium.com/embedded-python-cranking-performance-knob-up-to-eleven-df31a5940a63
-    # Prior to change execution time was 0.34375 to 0.408203
+
     def _show_screen(self):
+        # caching self referenced variables
         screen_vars = self._screen_vars()
         line_index = self.line_index
         height_lines = self.vars.display.height_lines
@@ -184,29 +184,71 @@ class ui_screen(object):
         _replace_var = self._replace_var
         check_keys = self.vars.keypad.check_keys
         receive = self.receive
-        thisDrawStart = time.monotonic()
+        updateStart = self.updateStart
+        updateEnd = self.updateEnd
+
+        print("_show_screen - BEFORE: updateStart ->", updateStart)
+        print("_show_screen - BEFORE: updateEnd ->", updateEnd)
         
+        thisDrawStart = time.monotonic()
+
+        # Check that the line_index is not greater than the number of lines available
         if line_index >= len(lines):
             line_index = 0
 
         if self.drawStart < thisDrawStart:
             self.drawStart = thisDrawStart
+        
+        if updateStart > updateEnd:
+            temp = updateEnd
+            updateEnd = updateStart
+            updateStart = temp
+        
+        # Set the range for lines to update
+        if updateStart < 0:
+            updateStart = 0
+        if updateEnd > len(lines) - 1:
+            updateEnd = len(lines) - 1
+        
 
+        # Convert update start and end to screen index
+        '''
+        updateStart = updateStart - line_index
+        updateEnd = updateEnd - line_index
+        if updateStart < 0:
+            updateStart = 0
+        if updateEnd < 0:
+            updateEnd = 0
+        if updateStart > height_lines - 1:
+            updateStart = height_lines - 1
+        if updateEnd > height_lines - 1:
+            updateEnd = height_lines - 1
+        
+        if updateStart > updateEnd:
+            temp = updateEnd
+            updateEnd = updateStart
+            updateStart = temp
+        '''
+
+        print("_show_screen - AFTER: updateStart ->", updateStart)
+        print("_show_screen - AFTER: updateEnd ->", updateEnd)
+
+        # Update screen text
         r = range(0, height_lines)
+        # r = range(updateStart, updateEnd + 1)
         for i in r:
             if self.drawStart > thisDrawStart:
                 print("********* Another request to draw the screen occurred *********")
                 return
-            print("LOOP(", i, "): drawStart -> ", self.drawStart, "thisDrawStart -> ", thisDrawStart)
 
-            check_keys()
-            if i % 2 == 1:  # Reveive every other tiome through the loop
-                receive()
+            # adjust screen line to template lines
             line = line_index + i
+
+            if line < updateStart or line > updateEnd:
+                continue
 
             if i > height_lines - 1 or line > len(lines) - 1:
                 screen[i].text = ""
-                # break
             elif isEditor and i > 0 and i < height_lines - 2:
                 screen[i].text = lines[line].text
             elif "%" in lines[line].text:
@@ -215,6 +257,10 @@ class ui_screen(object):
                 screen[i].text = lines[line].text
             
             screen[i].color = lines[line].color
+
+            # if i % 2 == 1:  # Receive every other time through the loop
+            check_keys()
+            receive()
         
         screen.show()
         self._gc()

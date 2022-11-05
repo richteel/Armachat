@@ -1,0 +1,52 @@
+# Brightness may be from 0 to 4
+bright = 4
+
+# Volume may be from 0 to 6
+volume = 6
+
+# Sleep may be 0 to 6
+#	0 = Never		4 = 120
+#	1 = 15 secs		5 = 300
+#	2 = 30 secs		6 = 600
+#	3 = 60
+sleep = 0
+
+# Tone may be from 1000 to 10000 in steps of 1000
+tone = 5000
+
+# Melody may be from 0 to length of items minus one, in melodies list of the 
+# included melody file in audio.py
+melody = 30
+
+# LoRa Profile may be from 1 to 6
+# Matches Mestastic values in table at
+# https://meshtastic.org/docs/settings/channel
+#	1 = Bw500Cr45Sf128       Short/Fast
+#	2 = Bw125Cr45Sf128       Short/Slow
+#	3 = Bw250Cr47Sf1024      Medium/Fast
+#	4 = Bw250Cr46Sf2048      Medium/Slow
+#	5 = Bw31_25Cr48Sf512     Long/Fast
+#	6 = Bw125Cr48Sf4096      Long/Slow
+loraProfile = 1
+
+# Region values may be US, EU433, EU868, CN, JP, ANZ, RU, KR, TW, IN, NZ865, TH, Unset
+region = "US"
+
+# Frequency values are dependant on the module freq
+freq = 915.25
+
+# Power values may be 5 to 23
+power = 6
+
+theme = 1
+hopLimit = 3
+myName = "DemoUser"
+destinations = "Test 1|12-36-124-1|Test 2|12-36-124-2|Test 3|12-36-124-3"
+font = 2
+groupMask = "255-255-255-0"
+password = "Sixteen byte key"
+myAddress = "12-36-124-3"
+unitName = "ARMACHAT"
+passwordIv = "Sixteen byte key"
+# Model value may be max, compact, or watch
+model = "compact"
